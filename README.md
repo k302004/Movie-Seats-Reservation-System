@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # Movie Seat Reservation System
 
 A modern, responsive movie seat reservation system built with Laravel.
@@ -96,43 +96,6 @@ A modern, responsive movie seat reservation system built with Laravel.
 - **Database**: SQLite (default), MySQL, PostgreSQL supported
 - **JavaScript**: Vanilla JavaScript for seat selection
 
-## Project Structure
 
-```
-app/
-├── Http/Controllers/
-│   ├── MovieController.php
-│   ├── ShowController.php
-│   └── ReservationController.php
-└── Models/
-    ├── Movie.php
-    ├── Show.php
-    ├── Seat.php
-    └── Reservation.php
-
-database/
-├── migrations/
-│   ├── create_movies_table.php
-│   ├── create_shows_table.php
-│   ├── create_seats_table.php
-│   └── create_reservations_table.php
-└── seeders/
-    └── DatabaseSeeder.php
-
-resources/views/
-├── layouts/
-│   └── app.blade.php
-├── movies/
-│   ├── index.blade.php
-│   └── show.blade.php
-├── shows/
-│   └── seats.blade.php
-└── reservations/
-    ├── confirmation.blade.php
-    └── show.blade.php
-
-routes/
-└── web.php
-```
 
 
