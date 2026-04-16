@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Movie Seat Reservation System
 
 A modern, responsive movie seat reservation system built with Laravel.
@@ -137,3 +138,6 @@ routes/
 ## License
 
 This project is open-sourced software licensed under the MIT license.
+=======
+# Movie-Seats-Reservation-System
+>>>>>>> f8337a2323a504576d59c42a3ed90bc671857d3f
