@@ -15,6 +15,8 @@ Route::get('/movies', [MovieController::class, 'index'])->name('movies.index');
 Route::get('/movies/{movie}', [MovieController::class, 'show'])->name('movies.show');
 
 Route::get('/shows/{show}/seats', [ShowController::class, 'selectSeats'])->name('shows.seats');
+Route::get('/shows/{show}/checkout', [ShowController::class, 'checkout'])->name('shows.checkout');
+Route::post('/shows/release-seats', [ShowController::class, 'releaseSeats'])->name('shows.releaseSeats');
 Route::get('/api/shows/{show}/availability', [ReservationController::class, 'checkAvailability']);
 
 Route::get('/reservations/lookup', [ReservationController::class, 'index'])->name('reservations.lookup');
@@ -32,22 +34,28 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
 });
 
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-    
-    Route::get('/movies', [AdminController::class, 'movies'])->name('movies');
-    Route::get('/movies/create', [AdminController::class, 'createMovie'])->name('movies.create');
-    Route::post('/movies', [AdminController::class, 'storeMovie'])->name('movies.store');
-    Route::get('/movies/{movie}/edit', [AdminController::class, 'editMovie'])->name('movies.edit');
-    Route::put('/movies/{movie}', [AdminController::class, 'updateMovie'])->name('movies.update');
-    Route::delete('/movies/{movie}', [AdminController::class, 'destroyMovie'])->name('movies.destroy');
-    
-    Route::get('/shows', [AdminController::class, 'shows'])->name('shows');
-    Route::get('/shows/create', [AdminController::class, 'createShow'])->name('shows.create');
-    Route::post('/shows', [AdminController::class, 'storeShow'])->name('shows.store');
-    Route::delete('/shows/{show}', [AdminController::class, 'destroyShow'])->name('shows.destroy');
-    
-    Route::get('/reservations', [AdminController::class, 'reservations'])->name('reservations');
-    Route::get('/reservations/{confirmationCode}', [AdminController::class, 'showReservation'])->name('reservations.show');
-    Route::delete('/reservations/{reservation}', [AdminController::class, 'destroyReservation'])->name('reservations.destroy');
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::middleware(['auth', 'role:admin'])->group(function () {
+        Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+        
+        Route::get('/admins', [AdminController::class, 'admins'])->name('admins');
+        Route::post('/admins', [AdminController::class, 'storeAdmin'])->name('admins.store');
+        Route::delete('/admins/{user}', [AdminController::class, 'destroyAdmin'])->name('admins.destroy');
+        
+        Route::get('/movies', [AdminController::class, 'movies'])->name('movies');
+        Route::get('/movies/create', [AdminController::class, 'createMovie'])->name('movies.create');
+        Route::post('/movies', [AdminController::class, 'storeMovie'])->name('movies.store');
+        Route::get('/movies/{movie}/edit', [AdminController::class, 'editMovie'])->name('movies.edit');
+        Route::put('/movies/{movie}', [AdminController::class, 'updateMovie'])->name('movies.update');
+        Route::delete('/movies/{movie}', [AdminController::class, 'destroyMovie'])->name('movies.destroy');
+        
+        Route::get('/shows', [AdminController::class, 'shows'])->name('shows');
+        Route::get('/shows/create', [AdminController::class, 'createShow'])->name('shows.create');
+        Route::post('/shows', [AdminController::class, 'storeShow'])->name('shows.store');
+        Route::delete('/shows/{show}', [AdminController::class, 'destroyShow'])->name('shows.destroy');
+        
+        Route::get('/reservations', [AdminController::class, 'reservations'])->name('reservations');
+        Route::get('/reservations/{confirmationCode}', [AdminController::class, 'showReservation'])->name('reservations.show');
+        Route::delete('/reservations/{reservation}', [AdminController::class, 'destroyReservation'])->name('reservations.destroy');
+    });
 });

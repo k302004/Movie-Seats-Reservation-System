@@ -41,9 +41,19 @@
                         </div>
                     </div>
                     <div>
-                        <div class="text-gray-500 text-sm">Customer</div>
+                        <div class="text-gray-500 text-sm">Name</div>
                         <div class="text-white font-semibold">{{ $reservation->customer_name }}</div>
                     </div>
+                    <div>
+                        <div class="text-gray-500 text-sm">Email</div>
+                        <div class="text-white font-semibold">{{ $reservation->customer_email }}</div>
+                    </div>
+                    @if($reservation->customer_phone)
+                    <div>
+                        <div class="text-gray-500 text-sm">Phone</div>
+                        <div class="text-white font-semibold">{{ $reservation->customer_phone }}</div>
+                    </div>
+                    @endif
                     <div>
                         <div class="text-gray-500 text-sm">Status</div>
                         <div class="text-green-400 font-semibold">

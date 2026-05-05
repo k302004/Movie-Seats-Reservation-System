@@ -6,8 +6,10 @@ use App\Models\Movie;
 use App\Models\Show;
 use App\Models\Seat;
 use App\Models\Reservation;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -183,5 +185,38 @@ class AdminController extends Controller
         $reservation->seat->update(['is_available' => true]);
         $reservation->delete();
         return back()->with('success', 'Reservation cancelled successfully!');
+    }
+
+    public function admins()
+    {
+        $admins = User::where('role', 'admin')->orderBy('created_at', 'desc')->get();
+        return view('admin.admins.index', compact('admins'));
+    }
+
+    public function storeAdmin(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => 'admin',
+        ]);
+
+        return redirect()->route('admin.admins')->with('success', 'Admin created successfully!');
+    }
+
+    public function destroyAdmin(User $user)
+    {
+        if ($user->id === auth()->id()) {
+            return back()->with('error', 'You cannot delete your own account!');
+        }
+        $user->delete();
+        return redirect()->route('admin.admins')->with('success', 'Admin deleted successfully!');
     }
 }

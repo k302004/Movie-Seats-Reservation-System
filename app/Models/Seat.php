@@ -17,6 +17,7 @@ class Seat extends Model
         'number',
         'is_available',
         'price',
+        'temp_reservation_id',
     ];
 
     protected $casts = [

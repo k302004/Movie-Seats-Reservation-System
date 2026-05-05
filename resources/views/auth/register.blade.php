@@ -27,7 +27,7 @@
                     <label for="name" class="block text-gray-400 text-sm mb-2">Full Name</label>
                     <input type="text" id="name" name="name" value="{{ old('name') }}" required autofocus
                            class="w-full bg-gray-800 border border-gray-700 rounded-md px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-netflix-red focus:ring-1 focus:ring-netflix-red transition"
-                           placeholder="John Doe">
+                           placeholder="">
                 </div>
 
                 <div>

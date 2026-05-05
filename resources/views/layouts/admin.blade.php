@@ -50,6 +50,12 @@
                             <span>Reservations</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="{{ route('admin.admins') }}" class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-gray-800 transition {{ request()->routeIs('admin.admins*') ? 'bg-gray-800 text-white' : 'text-gray-400' }}">
+                            <i class="fas fa-user-shield w-5"></i>
+                            <span>Admin Management</span>
+                        </a>
+                    </li>
                 </ul>
                 
                 <div class="mt-8 pt-8 border-t border-gray-800">

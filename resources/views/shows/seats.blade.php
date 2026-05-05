@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-[#141414]">
+<div class="min-h-screen bg-[#141414]" id="seatSelectionPage" data-show-id="{{ $show->id }}">
     <div class="max-w-6xl mx-auto px-4 py-8">
         <div class="bg-gray-800/50 rounded-xl p-6 mb-8 border border-gray-700">
             <div class="flex flex-wrap items-center justify-between gap-4">
@@ -106,26 +106,26 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <div>
                         <label for="customer_name" class="block text-gray-400 text-sm mb-2">Full Name *</label>
-                        <input type="text" id="customer_name" name="customer_name" required placeholder="John Doe"
+                        <input type="text" id="customer_name" name="customer_name" required placeholder="User Name"
                                class="w-full bg-gray-900 border border-gray-700 rounded-md px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-netflix-red focus:ring-1 focus:ring-netflix-red transition">
                     </div>
                     <div>
                         <label for="customer_email" class="block text-gray-400 text-sm mb-2">Email Address *</label>
-                        <input type="email" id="customer_email" name="customer_email" required placeholder="john@example.com"
+                        <input type="email" id="customer_email" name="customer_email" required placeholder="@gmail.com"
                                class="w-full bg-gray-900 border border-gray-700 rounded-md px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-netflix-red focus:ring-1 focus:ring-netflix-red transition">
                     </div>
                 </div>
 
                 <div class="mb-6">
                     <label for="customer_phone" class="block text-gray-400 text-sm mb-2">Phone Number (Optional)</label>
-                    <input type="tel" id="customer_phone" name="customer_phone" placeholder="+1 234 567 8900"
+                    <input type="tel" id="customer_phone" name="customer_phone" placeholder="+63XXXXXXXXXX"
                            class="w-full bg-gray-900 border border-gray-700 rounded-md px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-netflix-red focus:ring-1 focus:ring-netflix-red transition">
                 </div>
 
-                <button type="submit" id="submitBtn" disabled
-                        class="w-full bg-netflix-red hover-netflix-red text-white py-4 rounded-md font-bold text-lg transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center">
-                    <i class="fas fa-lock mr-2"></i>
-                    <span id="submitBtnText">Select seats to continue</span>
+                <button type="button" id="proceedToCheckout" disabled
+                        class="w-full bg-green-600 hover:bg-green-500 text-white py-4 rounded-md font-bold text-lg transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center">
+                    <i class="fas fa-shopping-cart mr-2"></i>
+                    <span id="proceedBtnText">Select seats to continue</span>
                 </button>
             </form>
         </div>
@@ -142,9 +142,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const selectedSeatsList = document.getElementById('selectedSeatsList');
     const totalPriceEl = document.getElementById('totalPrice');
     const selectedSeatsInput = document.getElementById('selectedSeats');
-    const submitBtn = document.getElementById('submitBtn');
-    const submitBtnText = document.getElementById('submitBtnText');
+    const proceedBtn = document.getElementById('proceedToCheckout');
+    const proceedBtnText = document.getElementById('proceedBtnText');
     const ticketPrice = {!! json_encode($show->price) !!};
+    const showId = {!! json_encode($show->id) !!};
 
     let selectedSeats = [];
 
@@ -171,8 +172,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateDisplay() {
         if (selectedSeats.length > 0) {
             selectedSeatsDisplay.classList.remove('hidden');
-            submitBtn.disabled = false;
-            submitBtnText.textContent = `Proceed to Book ${selectedSeats.length} Seat${selectedSeats.length > 1 ? 's' : ''}`;
+            proceedBtn.disabled = false;
+            proceedBtnText.textContent = `Proceed to Checkout - $${selectedSeats.reduce((sum, s) => sum + s.price, 0).toFixed(2)}`;
 
             selectedSeatsList.innerHTML = selectedSeats.map(s =>
                 `<span class="bg-netflix-red/20 border border-netflix-red text-netflix-red px-3 py-1 rounded-full text-sm font-semibold">${s.label}</span>`
@@ -182,12 +183,44 @@ document.addEventListener('DOMContentLoaded', function() {
             totalPriceEl.textContent = `$${total.toFixed(2)}`;
         } else {
             selectedSeatsDisplay.classList.add('hidden');
-            submitBtn.disabled = true;
-            submitBtnText.textContent = 'Select seats to continue';
+            proceedBtn.disabled = true;
+            proceedBtnText.textContent = 'Select seats to continue';
         }
 
         selectedSeatsInput.value = JSON.stringify(selectedSeats.map(s => s.id));
     }
+
+    proceedBtn.addEventListener('click', function() {
+        if (selectedSeats.length > 0) {
+            const checkoutUrl = `/shows/${showId}/checkout?seats=${encodeURIComponent(JSON.stringify(selectedSeats.map(s => s.id)))}`;
+            window.location.href = checkoutUrl;
+        }
+    });
+
+    function checkAvailability() {
+        fetch(`/api/shows/${showId}/availability`)
+            .then(response => response.json())
+            .then(data => {
+                data.seats.forEach(seatData => {
+                    const seatBtn = document.querySelector(`[data-seat-id="${seatData.id}"]`);
+                    if (seatBtn && !seatData.is_available) {
+                        if (!seatBtn.classList.contains('bg-netflix-red')) {
+                            seatBtn.disabled = true;
+                            seatBtn.classList.remove('bg-green-600', 'hover:bg-green-500');
+                            seatBtn.classList.add('bg-gray-700', 'text-gray-600', 'cursor-not-allowed');
+                            seatBtn.innerHTML = '<i class="fas fa-times"></i>';
+                            
+                            selectedSeats = selectedSeats.filter(s => s.id !== String(seatData.id));
+                        }
+                    }
+                });
+                updateDisplay();
+            })
+            .catch(error => console.error('Error checking availability:', error));
+    }
+
+    checkAvailability();
+    setInterval(checkAvailability, 3000);
 });
 </script>
 @endpush

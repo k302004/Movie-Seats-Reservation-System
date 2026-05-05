@@ -17,7 +17,7 @@
                     <div class="flex items-center space-x-3">
                         <i class="fas fa-film text-3xl text-white"></i>
                         <div>
-                            <div class="text-white font-bold text-lg">STREAMFLIX</div>
+                            <div class="text-white font-bold text-lg">SKYFLIX</div>
                             <div class="text-white/70 text-sm">Movie Ticket</div>
                         </div>
                     </div>
@@ -134,6 +134,9 @@
                     Save your confirmation code: <span class="font-bold font-mono text-lg">{{ $reservation->confirmation_code }}</span>
                 </p>
             </div>
+            <div class="text-gray-400 mb-4">
+                Redirecting to home in <span id="countdown" class="text-white font-bold">5</span> seconds...
+            </div>
             <div class="flex flex-wrap justify-center gap-4">
                 <a href="{{ route('movies.index') }}"
                    class="bg-netflix-red hover:bg-red-700 text-white px-6 py-3 rounded-lg font-semibold transition shadow-lg">
@@ -147,6 +150,23 @@
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let countdown = 5;
+    const countdownEl = document.getElementById('countdown');
+    
+    const interval = setInterval(function() {
+        countdown--;
+        countdownEl.textContent = countdown;
+        
+        if (countdown <= 0) {
+            clearInterval(interval);
+            window.location.href = '{{ route("movies.index") }}';
+        }
+    }, 1000);
+});
+</script>
 
 <style>
 @media print {

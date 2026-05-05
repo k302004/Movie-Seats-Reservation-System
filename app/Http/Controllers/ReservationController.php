@@ -45,7 +45,10 @@ class ReservationController extends Controller
             $confirmationCode = Reservation::generateConfirmationCode();
 
             foreach ($seats as $seat) {
-                $seat->update(['is_available' => false]);
+                $seat->update([
+                    'is_available' => false,
+                    'temp_reservation_id' => null
+                ]);
                 Reservation::create([
                     'seat_id' => $seat->id,
                     'customer_name' => $request->customer_name,
@@ -58,10 +61,12 @@ class ReservationController extends Controller
 
             DB::commit();
 
+            $request->session()->forget('temp_reservation');
+
             $reservation = Reservation::where('confirmation_code', $confirmationCode)->first();
             $show = Show::with('movie')->find($request->show_id);
 
-            return view('reservations.confirmation', compact('reservation', 'show', 'seats'));
+            return view('reservations.confirmation', compact('reservation', 'show', 'seats'))->with('bookingCompleted', true);
 
         } catch (\Exception $e) {
             DB::rollBack();

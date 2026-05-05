@@ -24,7 +24,10 @@ class AuthController extends Controller
         if (Auth::attempt($request->only('email', 'password'))) {
             $request->session()->regenerate();
             
-            if (Auth::user()->isAdmin()) {
+            $user = Auth::user();
+            
+            // Direct role check
+            if ($user->role === 'admin') {
                 return redirect()->route('admin.dashboard');
             }
             return redirect()->intended(route('movies.index'));
