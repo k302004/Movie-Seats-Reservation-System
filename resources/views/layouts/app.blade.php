@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StreamFlix - Movie Tickets</title>
+    <title>SkyFlix - Movie Tickets</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -28,7 +28,7 @@
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-8">
                     <a href="{{ route('movies.index') }}" class="text-3xl font-bold tracking-tight">
-                        <span class="netflix-red">STREAM</span><span class="text-white">FLIX</span>
+                        <span class="netflix-red">SKY</span><span class="text-white">FLIX</span>
                     </a>
                     <div class="hidden md:flex items-center space-x-6 text-sm font-medium">
                         <a href="{{ route('movies.index') }}" class="text-gray-300 hover:text-white transition">Home</a>
@@ -119,7 +119,7 @@
                 <a href="#" class="text-gray-500 hover:text-white transition"><i class="fab fa-twitter"></i></a>
                 <a href="#" class="text-gray-500 hover:text-white transition"><i class="fab fa-youtube"></i></a>
             </div>
-            <p class="text-center text-gray-600 text-sm">&copy; {{ date('Y') }} StreamFlix. All rights reserved.</p>
+            <p class="text-center text-gray-600 text-sm">&copy; {{ date('Y') }} SkyFlix. All rights reserved.</p>
         </div>
     </footer>
 </body>

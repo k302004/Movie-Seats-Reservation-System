@@ -43,7 +43,7 @@
                             <div class="text-netflix-red text-sm font-semibold">{{ $show->show_time->format('h:i A') }}</div>
                         </td>
                         <td class="px-6 py-4">
-                            <span class="text-green-400 font-bold">${{ number_format($show->price, 2) }}</span>
+                            <span class="text-green-400 font-bold">₱{{ number_format($show->price, 2) }}</span>
                         </td>
                         <td class="px-6 py-4">
                             @php

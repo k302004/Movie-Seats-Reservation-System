@@ -73,11 +73,11 @@
                 <div class="bg-gray-100 rounded-lg p-4 mb-6">
                     <div class="flex justify-between items-center mb-2">
                         <span class="text-gray-600">Ticket Price × {{ $seats->count() }}</span>
-                        <span class="text-gray-900">${{ number_format($show->price, 2) }} × {{ $seats->count() }}</span>
+                        <span class="text-gray-900">₱{{ number_format($show->price, 2) }} × {{ $seats->count() }}</span>
                     </div>
                     <div class="flex justify-between items-center pt-2 border-t border-gray-200">
                         <span class="text-gray-900 font-bold">Total Paid</span>
-                        <span class="text-green-600 font-bold text-2xl">${{ number_format($seats->sum('price'), 2) }}</span>
+                        <span class="text-green-600 font-bold text-2xl">₱{{ number_format($seats->sum('price'), 2) }}</span>
                     </div>
                 </div>
 

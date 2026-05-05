@@ -107,7 +107,7 @@
                 <div class="flex justify-between items-center">
                     <div class="text-gray-400">Total Amount</div>
                     <div class="text-3xl font-bold text-green-400">
-                        ${{ number_format($reservations->sum(function($r) { return $r->seat->price ?? 0; }), 2) }}
+                        ₱{{ number_format($reservations->sum(function($r) { return $r->seat->price ?? 0; }), 2) }}
                     </div>
                 </div>
                 <div class="flex justify-between items-center mt-3 text-sm text-gray-500">

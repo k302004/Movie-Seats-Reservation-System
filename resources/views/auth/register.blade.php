@@ -5,7 +5,7 @@
     <div class="w-full max-w-md">
         <div class="text-center mb-8">
             <a href="{{ route('movies.index') }}" class="text-4xl font-bold tracking-tight inline-block">
-                <span class="netflix-red">STREAM</span><span class="text-white">FLIX</span>
+                <span class="netflix-red">SKY</span><span class="text-white">FLIX</span>
             </a>
         </div>
 

@@ -20,7 +20,7 @@
                 </div>
                 <div class="text-right">
                     <div class="text-gray-400 text-sm">Per Ticket</div>
-                    <div class="text-3xl font-bold text-white">${{ number_format($show->price, 2) }}</div>
+                    <div class="text-3xl font-bold text-white">₱{{ number_format($show->price, 2) }}</div>
                 </div>
             </div>
         </div>
@@ -93,7 +93,7 @@
                     <div id="selectedSeatsList" class="flex flex-wrap gap-2 mb-4"></div>
                     <div class="flex justify-between items-center pt-4 border-t border-gray-700">
                         <span class="text-gray-300 font-medium">Total:</span>
-                        <span id="totalPrice" class="text-3xl font-bold text-green-500">$0.00</span>
+                        <span id="totalPrice" class="text-3xl font-bold text-green-500">₱0.00</span>
                     </div>
                 </div>
             </div>
@@ -173,14 +173,14 @@ document.addEventListener('DOMContentLoaded', function() {
         if (selectedSeats.length > 0) {
             selectedSeatsDisplay.classList.remove('hidden');
             proceedBtn.disabled = false;
-            proceedBtnText.textContent = `Proceed to Checkout - $${selectedSeats.reduce((sum, s) => sum + s.price, 0).toFixed(2)}`;
+            proceedBtnText.textContent = `Proceed to Checkout - ₱${selectedSeats.reduce((sum, s) => sum + s.price, 0).toFixed(2)}`;
 
             selectedSeatsList.innerHTML = selectedSeats.map(s =>
                 `<span class="bg-netflix-red/20 border border-netflix-red text-netflix-red px-3 py-1 rounded-full text-sm font-semibold">${s.label}</span>`
             ).join('');
 
             const total = selectedSeats.reduce((sum, s) => sum + s.price, 0);
-            totalPriceEl.textContent = `$${total.toFixed(2)}`;
+            totalPriceEl.textContent = `₱${total.toFixed(2)}`;
         } else {
             selectedSeatsDisplay.classList.add('hidden');
             proceedBtn.disabled = true;

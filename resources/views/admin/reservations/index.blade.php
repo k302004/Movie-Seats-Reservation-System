@@ -69,7 +69,7 @@
                             </span>
                         </td>
                         <td class="px-6 py-4">
-                            <span class="text-green-400 font-bold">${{ number_format($reservation->seat->price, 2) }}</span>
+                            <span class="text-green-400 font-bold">₱{{ number_format($reservation->seat->price, 2) }}</span>
                         </td>
                         <td class="px-6 py-4">
                             <div class="text-gray-400 text-sm">{{ $reservation->created_at->format('M d, Y') }}</div>

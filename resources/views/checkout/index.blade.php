@@ -59,7 +59,7 @@
                     @foreach($seats as $seat)
                     <div class="bg-gray-900/50 rounded-lg p-3 text-center border border-gray-700">
                         <div class="text-lg font-bold text-white">{{ $seat->seat_label }}</div>
-                        <div class="text-green-500 font-semibold">${{ number_format($seat->price, 2) }}</div>
+                        <div class="text-green-500 font-semibold">₱{{ number_format($seat->price, 2) }}</div>
                     </div>
                     @endforeach
                 </div>
@@ -67,7 +67,7 @@
                 <div class="bg-gray-900/50 rounded-lg p-4 border border-gray-700">
                     <div class="flex justify-between items-center text-lg">
                         <span class="text-gray-300">Total ({{ count($seats) }} seat{{ count($seats) > 1 ? 's' : '' }})</span>
-                        <span class="text-3xl font-bold text-green-500">${{ number_format($totalPrice, 2) }}</span>
+                        <span class="text-3xl font-bold text-green-500">₱{{ number_format($totalPrice, 2) }}</span>
                     </div>
                 </div>
             </div>

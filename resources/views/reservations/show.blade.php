@@ -62,7 +62,7 @@
                     </div>
                     <div>
                         <div class="text-gray-500 text-sm">Total</div>
-                        <div class="text-green-400 font-bold text-xl">${{ number_format($seats->sum('price'), 2) }}</div>
+                        <div class="text-green-400 font-bold text-xl">₱{{ number_format($seats->sum('price'), 2) }}</div>
                     </div>
                 </div>
 

@@ -113,7 +113,7 @@
                             </div>
                         </div>
                         <div class="text-right">
-                            <div class="text-2xl font-bold text-white">${{ number_format($show->price, 2) }}</div>
+                            <div class="text-2xl font-bold text-white">₱{{ number_format($show->price, 2) }}</div>
                             <div class="text-gray-500 text-xs">per ticket</div>
                         </div>
                     </div>

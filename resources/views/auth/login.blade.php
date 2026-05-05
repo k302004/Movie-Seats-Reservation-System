@@ -5,7 +5,7 @@
     <div class="w-full max-w-md">
         <div class="text-center mb-8">
             <a href="{{ route('movies.index') }}" class="text-4xl font-bold tracking-tight inline-block">
-                <span class="netflix-red">STREAM</span><span class="text-white">FLIX</span>
+                <span class="netflix-red">SKY</span><span class="text-white">FLIX</span>
             </a>
         </div>
 
@@ -51,7 +51,7 @@
 
             <div class="mt-6 text-center">
                 <p class="text-gray-400">
-                    New to StreamFlix? 
+                    New to SkyFlix? 
                     <a href="{{ route('register') }}" class="text-white hover:underline font-semibold">
                         Sign up now
                     </a>
@@ -60,7 +60,6 @@
         </div>
 
         <p class="text-center text-gray-600 text-sm mt-6">
-            This is a demo project. Use: admin@movie.com / password
         </p>
     </div>
 </div>

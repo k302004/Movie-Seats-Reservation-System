@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StreamFlix Admin</title>
+    <title>SkyFlix Admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -20,7 +20,7 @@
         <aside class="fixed left-0 top-0 bottom-0 w-64 sidebar border-r border-gray-800 z-40">
             <div class="p-6 border-b border-gray-800">
                 <a href="{{ route('admin.dashboard') }}" class="text-2xl font-bold tracking-tight">
-                    <span class="netflix-red">STREAM</span><span class="text-white">FLIX</span>
+                    <span class="netflix-red">SKY</span><span class="text-white">FLIX</span>
                     <span class="block text-xs text-gray-500 font-normal mt-1">Admin Panel</span>
                 </a>
             </div>
@@ -52,7 +52,7 @@
                     </li>
                     <li>
                         <a href="{{ route('admin.admins') }}" class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-gray-800 transition {{ request()->routeIs('admin.admins*') ? 'bg-gray-800 text-white' : 'text-gray-400' }}">
-                            <i class="fas fa-user-shield w-5"></i>
+                            <i class="fas fa-users-cog w-5"></i>
                             <span>Admin Management</span>
                         </a>
                     </li>
