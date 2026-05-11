@@ -8,12 +8,21 @@
                 <i class="fas fa-check-circle text-6xl text-green-500"></i>
             </div>
             <h1 class="text-4xl font-bold text-green-500 mb-2">Booking Successful!</h1>
-            <p class="text-gray-400">Your movie tickets have been reserved</p>
+            <p class="text-gray-400">Your movie tickets have been reserved and a receipt is ready.</p>
         </div>
 
         <div class="bg-white rounded-xl overflow-hidden shadow-2xl">
+            <div class="flex flex-wrap items-center justify-between gap-4 p-6 border-b border-gray-200 bg-gray-50">
+                <div>
+                    <h2 class="text-xl font-bold text-gray-900">Receipt</h2>
+                    <p class="text-gray-500 text-sm mt-1">Print or save this receipt after completing payment.</p>
+                </div>
+                <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-500 text-white px-5 py-3 rounded-lg font-semibold transition">
+                    <i class="fas fa-print mr-2"></i> Print Receipt
+                </button>
+            </div>
             <div class="bg-netflix-red p-4">
-                <div class="flex items-center justify-between">
+                <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                     <div class="flex items-center space-x-3">
                         <i class="fas fa-film text-3xl text-white"></i>
                         <div>
@@ -24,6 +33,44 @@
                     <div class="text-right">
                         <div class="text-white/70 text-xs">Confirmation</div>
                         <div class="text-white font-bold font-mono text-lg">{{ $reservation->confirmation_code }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-6 bg-gray-50 border-b border-gray-200">
+                <div class="grid grid-cols-1 md:grid-cols-[1.2fr_0.8fr] gap-6 items-center">
+                    <div>
+                        <div class="text-gray-500 text-xs uppercase tracking-wide mb-2">Receipt</div>
+                        <h2 class="text-2xl font-bold text-gray-900 mb-2">Reservation Receipt</h2>
+                        <p class="text-gray-600 text-sm">This receipt includes your booking details, QR code, and payment expiry information.</p>
+                    </div>
+                    <div class="rounded-3xl overflow-hidden bg-white border border-gray-200 p-3 w-full max-w-[220px] mx-auto">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data={{ urlencode(route('reservations.show', $reservation->confirmation_code)) }}"
+                             alt="Reservation QR code"
+                             class="w-full h-full object-contain rounded-xl">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                    <div class="bg-white rounded-2xl p-4 border border-gray-200">
+                        <div class="text-gray-500 text-xs uppercase mb-1">Payment Method</div>
+                        <div class="text-gray-900 font-semibold">{{ $reservation->payment_method === 'online' ? 'Online Payment' : 'Pay at Counter' }}</div>
+                        <div class="text-gray-500 text-xs mt-2">
+                            {{ $reservation->payment_method === 'online' ? 'Payment complete.' : 'Pay at cashier within 12 hours.' }}
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-2xl p-4 border border-gray-200">
+                        <div class="text-gray-500 text-xs uppercase mb-1">Status</div>
+                        <div class="text-gray-900 font-semibold">{{ $reservation->payment_method === 'online' ? 'Paid' : ($reservation->isExpired() ? 'Expired' : 'Pending Payment') }}</div>
+                        @if($reservation->payment_method === 'cashier')
+                            <div class="text-gray-500 text-xs mt-2">Expires</div>
+                            <div class="text-gray-900 font-semibold">{{ optional($reservation->payment_expires_at)->format('M d, Y h:i A') }}</div>
+                        @endif
+                    </div>
+                    <div class="bg-white rounded-2xl p-4 border border-gray-200">
+                        <div class="text-gray-500 text-xs uppercase mb-1">Booked For</div>
+                        <div class="text-gray-900 font-semibold">{{ $show->show_time->format('M d, Y') }}</div>
+                        <div class="text-gray-500 text-xs mt-2">{{ $show->show_time->format('h:i A') }}</div>
                     </div>
                 </div>
             </div>
@@ -83,12 +130,25 @@
 
                 <div class="text-center">
                     <div class="bg-gray-100 rounded-lg p-4 mb-4">
-                        <div class="text-gray-500 text-xs mb-2">Booked By</div>
-                        <div class="text-gray-900 font-semibold">{{ $reservation->customer_name }}</div>
-                        <div class="text-gray-500 text-sm">{{ $reservation->customer_email }}</div>
-                        @if($reservation->customer_phone)
-                            <div class="text-gray-500 text-sm">{{ $reservation->customer_phone }}</div>
-                        @endif
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <div class="text-gray-500 text-xs">Booked By</div>
+                                <div class="text-gray-900 font-semibold">{{ $reservation->customer_name }}</div>
+                                <div class="text-gray-500 text-sm">{{ $reservation->customer_email }}</div>
+                                @if($reservation->customer_phone)
+                                    <div class="text-gray-500 text-sm">{{ $reservation->customer_phone }}</div>
+                                @endif
+                            </div>
+                            <div>
+                                <div class="text-gray-500 text-xs">Payment Method</div>
+                                <div class="text-gray-900 font-semibold">
+                                    {{ $reservation->payment_method === 'online' ? 'Online Payment' : 'Pay at Counter' }}
+                                </div>
+                                <div class="text-gray-400 text-sm mt-2">
+                                    {{ $reservation->payment_method === 'online' ? 'Print this receipt or save as PDF.' : 'Pay when you arrive at the cinema.' }}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="text-xs text-gray-400">
                         Booked on {{ $reservation->created_at->format('M d, Y at h:i A') }}
@@ -170,8 +230,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <style>
 @media print {
-    nav, footer, .flex.flex-wrap { display: none !important; }
+    nav, footer, .no-print, .flex.flex-wrap { display: none !important; }
     .min-h-screen { background: white !important; padding: 20px !important; }
+    body { background: white !important; color: #000 !important; }
+    .bg-netflix-red, .bg-gray-100, .bg-yellow-500\/20, .bg-gray-200, .bg-gray-100 { background: transparent !important; }
 }
 </style>
 @endsection

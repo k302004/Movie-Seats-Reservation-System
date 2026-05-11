@@ -12,6 +12,8 @@ class ShowController extends Controller
 {
     public function selectSeats(Show $show)
     {
+        Reservation::releaseExpiredCashierReservations();
+
         $show->load('movie');
         $seats = $show->seats()
             ->orderBy('row')

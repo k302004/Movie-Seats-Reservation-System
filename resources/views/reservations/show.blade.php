@@ -15,6 +15,35 @@
             </div>
 
             <div class="border-2 border-gray-600 rounded-xl p-6 mb-6">
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-6 pb-6 border-b border-gray-700">
+                    <div>
+                        <h3 class="text-2xl font-bold text-white mb-2">Receipt</h3>
+                        <p class="text-gray-400 text-sm">Print this page or save as PDF for your ticket.</p>
+                    </div>
+                    <button type="button" onclick="window.print()" class="bg-blue-600 hover:bg-blue-500 text-white px-5 py-3 rounded-lg font-semibold transition">
+                        <i class="fas fa-print mr-2"></i> Print Receipt
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div class="rounded-2xl bg-gray-900 p-4 border border-gray-700">
+                        <div class="text-gray-500 text-xs uppercase mb-1">Payment Method</div>
+                        <div class="text-white font-semibold">{{ $reservation->payment_method === 'online' ? 'Online Payment' : 'Pay at Counter' }}</div>
+                        <div class="text-gray-400 text-sm mt-2">{{ $reservation->payment_method === 'online' ? 'Payment complete.' : 'Pay at cashier within 12 hours.' }}</div>
+                    </div>
+                    <div class="rounded-2xl bg-gray-900 p-4 border border-gray-700">
+                        <div class="text-gray-500 text-xs uppercase mb-1">Status</div>
+                        <div class="text-white font-semibold">{{ $reservation->payment_method === 'online' ? 'Paid' : ($reservation->isExpired() ? 'Expired' : 'Pending Payment') }}</div>
+                        @if($reservation->payment_method === 'cashier')
+                            <div class="text-gray-500 text-xs mt-3 uppercase">Expires</div>
+                            <div class="text-white font-semibold">{{ optional($reservation->payment_expires_at)->format('M d, Y h:i A') }}</div>
+                        @endif
+                    </div>
+                    <div class="rounded-2xl bg-gray-900 p-4 border border-gray-700 flex items-center justify-center">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data={{ urlencode(route('reservations.show', $reservation->confirmation_code)) }}"
+                             alt="Reservation QR code"
+                             class="w-full h-full object-contain rounded-xl">
+                    </div>
+                </div>
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 pb-6 border-b border-gray-700">
                     <div>
                         <h3 class="text-2xl font-bold text-white mb-2">{{ $show->movie->title }}</h3>
@@ -55,6 +84,12 @@
                     </div>
                     @endif
                     <div>
+                        <div class="text-gray-500 text-sm">Payment</div>
+                        <div class="text-white font-semibold">
+                            {{ $reservation->payment_method === 'online' ? 'Online Payment' : 'Pay at Counter' }}
+                        </div>
+                    </div>
+                    <div>
                         <div class="text-gray-500 text-sm">Status</div>
                         <div class="text-green-400 font-semibold">
                             {{ $reservation->is_confirmed ? 'Confirmed' : 'Pending' }}
@@ -65,45 +100,28 @@
                         <div class="text-green-400 font-bold text-xl">₱{{ number_format($seats->sum('price'), 2) }}</div>
                     </div>
                 </div>
-
-                <div class="flex justify-center">
-                    <div class="bg-white rounded-lg p-4">
-                        <div class="text-gray-800 text-sm text-center mb-2 font-semibold">Scan at entrance</div>
-                        <svg class="w-32 h-32" viewBox="0 0 100 100">
-                            <rect x="10" y="10" width="20" height="20" fill="#000"></rect>
-                            <rect x="35" y="10" width="5" height="5" fill="#000"></rect>
-                            <rect x="45" y="10" width="10" height="5" fill="#000"></rect>
-                            <rect x="60" y="10" width="30" height="5" fill="#000"></rect>
-                            <rect x="10" y="35" width="5" height="10" fill="#000"></rect>
-                            <rect x="20" y="35" width="5" height="5" fill="#000"></rect>
-                            <rect x="30" y="35" width="5" height="10" fill="#000"></rect>
-                            <rect x="40" y="35" width="15" height="5" fill="#000"></rect>
-                            <rect x="60" y="35" width="10" height="10" fill="#000"></rect>
-                            <rect x="75" y="35" width="15" height="5" fill="#000"></rect>
-                            <rect x="10" y="50" width="5" height="20" fill="#000"></rect>
-                            <rect x="20" y="50" width="20" height="5" fill="#000"></rect>
-                            <rect x="20" y="60" width="5" height="10" fill="#000"></rect>
-                            <rect x="30" y="55" width="10" height="5" fill="#000"></rect>
-                            <rect x="45" y="50" width="5" height="20" fill="#000"></rect>
-                            <rect x="55" y="55" width="5" height="15" fill="#000"></rect>
-                            <rect x="65" y="50" width="25" height="5" fill="#000"></rect>
-                            <rect x="75" y="60" width="15" height="5" fill="#000"></rect>
-                            <rect x="10" y="75" width="30" height="5" fill="#000"></rect>
-                            <rect x="45" y="75" width="15" height="5" fill="#000"></rect>
-                            <rect x="65" y="70" width="5" height="10" fill="#000"></rect>
-                            <rect x="75" y="75" width="10" height="5" fill="#000"></rect>
-                        </svg>
-                    </div>
-                </div>
             </div>
 
-            <div class="text-center">
+            <div class="text-center mb-6 no-print">
+                <button type="button" onclick="window.print()"
+                   class="inline-block bg-blue-600 hover:bg-blue-500 text-white px-8 py-3 rounded-lg font-bold transition mr-4 mb-4">
+                    <i class="fas fa-print mr-2"></i> Print Receipt
+                </button>
                 <a href="{{ route('movies.index') }}"
-                   class="inline-block bg-netflix-red hover-netflix-red text-white px-8 py-3 rounded-lg font-bold transition">
+                   class="inline-block bg-netflix-red hover-netflix-red text-white px-8 py-3 rounded-lg font-bold transition mb-4">
                     <i class="fas fa-film mr-2"></i> Back to Movies
                 </a>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+@media print {
+    nav, footer, .no-print { display: none !important; }
+    .min-h-screen { background: white !important; padding: 20px !important; }
+    body { background: white !important; color: #000 !important; }
+    .bg-netflix-red, .bg-gray-800\/50, .bg-gray-700, .bg-gray-100, .bg-white, .bg-gray-200 { background: transparent !important; }
+}
+</style>
 @endsection

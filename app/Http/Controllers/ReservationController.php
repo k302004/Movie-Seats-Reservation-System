@@ -18,6 +18,8 @@ class ReservationController extends Controller
 
     public function store(Request $request)
     {
+        Reservation::releaseExpiredCashierReservations();
+
         $request->validate([
             'show_id' => 'required|exists:shows,id',
             'seat_ids' => 'required|array|min:1',
@@ -25,16 +27,27 @@ class ReservationController extends Controller
             'customer_name' => 'required|string|max:255',
             'customer_email' => 'required|email|max:255',
             'customer_phone' => 'nullable|string|max:20',
+            'payment_method' => 'required|in:online,cashier',
         ]);
 
         try {
             DB::beginTransaction();
 
             $seatIds = is_string($request->seat_ids) ? json_decode($request->seat_ids) : $request->seat_ids;
+            $tempReservation = $request->session()->get('temp_reservation');
+            $paymentMethod = $request->payment_method;
+            $paymentStatus = $paymentMethod === 'online' ? 'paid' : 'pending';
+            $expiresAt = $paymentMethod === 'cashier' ? now()->addHours(12) : null;
 
             $seats = Seat::whereIn('id', $seatIds)
                 ->where('show_id', $request->show_id)
-                ->where('is_available', true)
+                ->where(function ($query) use ($tempReservation) {
+                    $query->where('is_available', true);
+
+                    if ($tempReservation) {
+                        $query->orWhere('temp_reservation_id', $tempReservation['id']);
+                    }
+                })
                 ->lockForUpdate()
                 ->get();
 
@@ -55,6 +68,9 @@ class ReservationController extends Controller
                     'customer_email' => $request->customer_email,
                     'customer_phone' => $request->customer_phone,
                     'confirmation_code' => $confirmationCode,
+                    'payment_method' => $paymentMethod,
+                    'payment_status' => $paymentStatus,
+                    'payment_expires_at' => $expiresAt,
                     'is_confirmed' => true,
                 ]);
             }
@@ -93,6 +109,8 @@ class ReservationController extends Controller
 
     public function checkAvailability(Show $show)
     {
+        Reservation::releaseExpiredCashierReservations();
+
         $seats = $show->seats()
             ->orderBy('row')
             ->orderBy('number')

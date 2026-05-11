@@ -100,20 +100,36 @@
                                class="w-full bg-gray-900 border border-gray-700 rounded-md px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-netflix-red focus:ring-1 focus:ring-netflix-red transition">
                     </div>
 
-                    <div class="bg-blue-900/20 border border-blue-600/50 rounded-lg p-4 mb-6">
-                        <div class="flex items-start gap-3">
-                            <i class="fas fa-info-circle text-blue-400 mt-1"></i>
-                            <div class="text-sm text-blue-300">
-                                <p class="font-semibold mb-1">Payment on Arrival</p>
-                                <p>You will pay at the cinema counter when you arrive. A confirmation receipt will be sent to your email.</p>
-                            </div>
+                    <div class="mb-6">
+                        <span class="block text-gray-400 text-sm mb-2">Payment Method *</span>
+                        <div class="grid gap-4 md:grid-cols-2">
+                            <label class="cursor-pointer rounded-xl border border-gray-700 bg-gray-900 hover:border-netflix-red transition">
+                                <input type="radio" name="payment_method" value="cashier" checked class="peer sr-only" />
+                                <div class="flex items-start gap-3 p-4 peer-checked:border-netflix-red peer-checked:ring-2 peer-checked:ring-netflix-red peer-checked:bg-gray-800 transition rounded-xl">
+                                    <div class="text-netflix-red text-2xl mt-1"><i class="fas fa-wallet"></i></div>
+                                    <div>
+                                        <div class="text-white font-semibold">Pay at Counter</div>
+                                        <div class="text-gray-400 text-sm">Reserve now and settle payment when you arrive at the cinema cashier.</div>
+                                    </div>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer rounded-xl border border-gray-700 bg-gray-900 hover:border-netflix-red transition">
+                                <input type="radio" name="payment_method" value="online" class="peer sr-only" />
+                                <div class="flex items-start gap-3 p-4 peer-checked:border-netflix-red peer-checked:ring-2 peer-checked:ring-netflix-red peer-checked:bg-gray-800 transition rounded-xl">
+                                    <div class="text-netflix-red text-2xl mt-1"><i class="fas fa-credit-card"></i></div>
+                                    <div>
+                                        <div class="text-white font-semibold">Online Payment</div>
+                                        <div class="text-gray-400 text-sm">Select this if you want to pay online and get a receipt immediately.</div>
+                                    </div>
+                                </div>
+                            </label>
                         </div>
                     </div>
 
                     <button type="submit" 
                             class="w-full bg-green-600 hover:bg-green-500 text-white py-4 rounded-md font-bold text-lg transition flex items-center justify-center">
                         <i class="fas fa-check-circle mr-2"></i>
-                        <span>Confirm Booking - Pay at Counter</span>
+                        <span>Confirm Booking</span>
                     </button>
                 </form>
             </div>
