@@ -12,6 +12,11 @@ class ShowController extends Controller
 {
     public function selectSeats(Show $show)
     {
+<<<<<<< HEAD
+=======
+        Reservation::releaseExpiredCashierReservations();
+
+>>>>>>> 85d3be40cfe649a8304f3ddc942a262e67a3a530
         $show->load('movie');
         $seats = $show->seats()
             ->orderBy('row')
@@ -52,6 +57,27 @@ class ShowController extends Controller
             return redirect()->route('shows.seats', $show)->with('error', 'Some selected seats are no longer available. Please choose different seats.');
         }
 
+<<<<<<< HEAD
+=======
+        $confirmationCode = Reservation::generateConfirmationCode();
+        $tempReservationId = 'temp_' . time() . '_' . rand(1000, 9999);
+
+        foreach ($seats as $seat) {
+            $seat->update([
+                'is_available' => false,
+                'temp_reservation_id' => $tempReservationId
+            ]);
+        }
+
+        $request->session()->put('temp_reservation', [
+            'id' => $tempReservationId,
+            'show_id' => $show->id,
+            'seat_ids' => $seats->pluck('id')->toArray(),
+            'confirmation_code' => $confirmationCode,
+            'expires_at' => now()->addMinutes(15)
+        ]);
+
+>>>>>>> 85d3be40cfe649a8304f3ddc942a262e67a3a530
         $show->load('movie');
         $totalPrice = $seats->sum('price');
 

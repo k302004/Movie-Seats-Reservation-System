@@ -26,7 +26,10 @@
                     <th class="text-left px-6 py-4 text-gray-400 font-semibold">Movie & Show</th>
                     <th class="text-left px-6 py-4 text-gray-400 font-semibold">Seats</th>
                     <th class="text-left px-6 py-4 text-gray-400 font-semibold">Amount</th>
+<<<<<<< HEAD
                     <th class="text-left px-6 py-4 text-gray-400 font-semibold">Payment</th>
+=======
+>>>>>>> 85d3be40cfe649a8304f3ddc942a262e67a3a530
                     <th class="text-left px-6 py-4 text-gray-400 font-semibold">Booked At</th>
                     <th class="text-left px-6 py-4 text-gray-400 font-semibold">Status</th>
                     <th class="text-right px-6 py-4 text-gray-400 font-semibold">Actions</th>
@@ -73,6 +76,7 @@
                             <span class="text-green-400 font-bold">₱{{ number_format($reservation->seat->price, 2) }}</span>
                         </td>
                         <td class="px-6 py-4">
+<<<<<<< HEAD
                             <div class="text-sm">
                                 @if($reservation->payment_method === 'cashless')
                                     <span class="text-blue-400"><i class="fas fa-credit-card mr-1"></i> Cashless</span>
@@ -88,6 +92,8 @@
                             </div>
                         </td>
                         <td class="px-6 py-4">
+=======
+>>>>>>> 85d3be40cfe649a8304f3ddc942a262e67a3a530
                             <div class="text-gray-400 text-sm">{{ $reservation->created_at->format('M d, Y') }}</div>
                             <div class="text-gray-500 text-xs">{{ $reservation->created_at->format('h:i A') }}</div>
                         </td>

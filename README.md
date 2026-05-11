@@ -96,3 +96,7 @@ A modern, responsive movie seat reservation system built with Laravel.
 - **Database**: SQLite (default), MySQL, PostgreSQL supported
 - **JavaScript**: Vanilla JavaScript for seat selection
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 85d3be40cfe649a8304f3ddc942a262e67a3a530

@@ -19,6 +19,7 @@
         </div>
     @else
         <div class="bg-gray-800/50 rounded-xl p-6 border border-gray-700 mb-6">
+<<<<<<< HEAD
                 <div class="flex items-center justify-between mb-6 pb-6 border-b border-gray-700">
                     <div class="flex items-center space-x-4">
                         <div class="w-16 h-16 bg-netflix-red/20 rounded-xl flex items-center justify-center">
@@ -59,6 +60,30 @@
                         @endif
                     </div>
                 </div>
+=======
+            <div class="flex items-center justify-between mb-6 pb-6 border-b border-gray-700">
+                <div class="flex items-center space-x-4">
+                    <div class="w-16 h-16 bg-netflix-red/20 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-ticket-alt text-3xl text-netflix-red"></i>
+                    </div>
+                    <div>
+                        <div class="text-gray-400 text-sm">Confirmation Code</div>
+                        <div class="text-3xl font-bold text-white font-mono">{{ $reservations->first()->confirmation_code }}</div>
+                    </div>
+                </div>
+                <div>
+                    @if($reservations->first()->is_confirmed)
+                        <span class="bg-green-600/20 text-green-400 px-4 py-2 rounded-full text-sm font-semibold">
+                            <i class="fas fa-check-circle mr-1"></i> Confirmed
+                        </span>
+                    @else
+                        <span class="bg-yellow-600/20 text-yellow-400 px-4 py-2 rounded-full text-sm font-semibold">
+                            <i class="fas fa-clock mr-1"></i> Pending
+                        </span>
+                    @endif
+                </div>
+            </div>
+>>>>>>> 85d3be40cfe649a8304f3ddc942a262e67a3a530
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div class="bg-gray-900/50 rounded-xl p-5">

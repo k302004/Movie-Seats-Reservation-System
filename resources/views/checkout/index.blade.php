@@ -76,6 +76,7 @@
                 <h3 class="text-lg font-bold text-white mb-4 flex items-center">
                     <i class="fas fa-user netflix-red mr-3"></i> Customer Information
                 </h3>
+<<<<<<< HEAD
                 @if($errors->any())
                 <div class="bg-red-900/30 border border-red-500/50 rounded-lg p-4 mb-6">
                     <div class="flex items-start gap-3">
@@ -98,19 +99,33 @@
                     @foreach($seats->pluck('id') as $seatId)
                         <input type="hidden" name="seat_ids[]" value="{{ $seatId }}">
                     @endforeach
+=======
+                <form id="checkoutForm" action="{{ route('reservations.store') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="show_id" value="{{ $show->id }}">
+                    <input type="hidden" name="seat_ids" value="{{ json_encode($seats->pluck('id')->toArray()) }}">
+>>>>>>> 85d3be40cfe649a8304f3ddc942a262e67a3a530
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <div>
                             <label for="customer_name" class="block text-gray-400 text-sm mb-2">Full Name *</label>
                             <input type="text" id="customer_name" name="customer_name" required placeholder="Enter your full name"
+<<<<<<< HEAD
                                    class="w-full bg-gray-900 border border-gray-700 rounded-md px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-netflix-red focus:ring-1 focus:ring-netflix-red transition @error('customer_name') border-red-500 @enderror">
                             @error('customer_name') <p class="text-red-400 text-xs mt-1">{{ $message }}</p> @enderror
+=======
+                                   class="w-full bg-gray-900 border border-gray-700 rounded-md px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-netflix-red focus:ring-1 focus:ring-netflix-red transition">
+>>>>>>> 85d3be40cfe649a8304f3ddc942a262e67a3a530
                         </div>
                         <div>
                             <label for="customer_email" class="block text-gray-400 text-sm mb-2">Email Address *</label>
                             <input type="email" id="customer_email" name="customer_email" required placeholder="your@email.com"
+<<<<<<< HEAD
                                    class="w-full bg-gray-900 border border-gray-700 rounded-md px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-netflix-red focus:ring-1 focus:ring-netflix-red transition @error('customer_email') border-red-500 @enderror">
                             @error('customer_email') <p class="text-red-400 text-xs mt-1">{{ $message }}</p> @enderror
+=======
+                                   class="w-full bg-gray-900 border border-gray-700 rounded-md px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-netflix-red focus:ring-1 focus:ring-netflix-red transition">
+>>>>>>> 85d3be40cfe649a8304f3ddc942a262e67a3a530
                         </div>
                     </div>
 
@@ -121,6 +136,7 @@
                     </div>
 
                     <div class="mb-6">
+<<<<<<< HEAD
                         <label class="block text-gray-400 text-sm mb-3">Payment Method *</label>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                             <label class="payment-option cursor-pointer">
@@ -154,6 +170,27 @@
                                     </div>
                                     <div class="mt-2 text-xs text-green-400 payment-hint-cashless">
                                         <i class="fas fa-check-circle mr-1"></i> Paid online — receipt shows as <strong>paid</strong>
+=======
+                        <span class="block text-gray-400 text-sm mb-2">Payment Method *</span>
+                        <div class="grid gap-4 md:grid-cols-2">
+                            <label class="cursor-pointer rounded-xl border border-gray-700 bg-gray-900 hover:border-netflix-red transition">
+                                <input type="radio" name="payment_method" value="cashier" checked class="peer sr-only" />
+                                <div class="flex items-start gap-3 p-4 peer-checked:border-netflix-red peer-checked:ring-2 peer-checked:ring-netflix-red peer-checked:bg-gray-800 transition rounded-xl">
+                                    <div class="text-netflix-red text-2xl mt-1"><i class="fas fa-wallet"></i></div>
+                                    <div>
+                                        <div class="text-white font-semibold">Pay at Counter</div>
+                                        <div class="text-gray-400 text-sm">Reserve now and settle payment when you arrive at the cinema cashier.</div>
+                                    </div>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer rounded-xl border border-gray-700 bg-gray-900 hover:border-netflix-red transition">
+                                <input type="radio" name="payment_method" value="online" class="peer sr-only" />
+                                <div class="flex items-start gap-3 p-4 peer-checked:border-netflix-red peer-checked:ring-2 peer-checked:ring-netflix-red peer-checked:bg-gray-800 transition rounded-xl">
+                                    <div class="text-netflix-red text-2xl mt-1"><i class="fas fa-credit-card"></i></div>
+                                    <div>
+                                        <div class="text-white font-semibold">Online Payment</div>
+                                        <div class="text-gray-400 text-sm">Select this if you want to pay online and get a receipt immediately.</div>
+>>>>>>> 85d3be40cfe649a8304f3ddc942a262e67a3a530
                                     </div>
                                 </div>
                             </label>
@@ -163,7 +200,11 @@
                     <button type="submit" 
                             class="w-full bg-green-600 hover:bg-green-500 text-white py-4 rounded-md font-bold text-lg transition flex items-center justify-center">
                         <i class="fas fa-check-circle mr-2"></i>
+<<<<<<< HEAD
                         <span id="submitBtnText">Confirm Booking - Pay at Counter</span>
+=======
+                        <span>Confirm Booking</span>
+>>>>>>> 85d3be40cfe649a8304f3ddc942a262e67a3a530
                     </button>
                 </form>
             </div>
@@ -176,6 +217,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     const checkoutForm = document.getElementById('checkoutForm');
     const backLink = document.querySelector('a[href*="shows.seats"]');
+<<<<<<< HEAD
     const paymentRadios = document.querySelectorAll('input[name="payment_method"]');
     const submitBtnText = document.getElementById('submitBtnText');
     
@@ -192,6 +234,9 @@ document.addEventListener('DOMContentLoaded', function() {
         radio.addEventListener('change', updateButtonText);
     });
 
+=======
+    
+>>>>>>> 85d3be40cfe649a8304f3ddc942a262e67a3a530
     function releaseSeats() {
         fetch('{{ route("shows.releaseSeats") }}', {
             method: 'POST',
