@@ -97,24 +97,3 @@ A modern, responsive movie seat reservation system built with Laravel.
 - **JavaScript**: Vanilla JavaScript for seat selection
 
 
-
-
-<<<<<<< HEAD
-resources/views/
-├── layouts/
-│   └── app.blade.php
-├── movies/
-│   ├── index.blade.php
-│   └── show.blade.php
-├── shows/
-│   └── seats.blade.php
-└── reservations/
-    ├── confirmation.blade.php
-    └── show.blade.php
-
-routes/
-└── web.php
-```
-
-=======
->>>>>>> d6ff01455d7cbb5089c8a302eba7a56ad5f2c882
